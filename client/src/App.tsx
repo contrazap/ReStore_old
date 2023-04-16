@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
+import { Product } from "./Product";
 
 function App() {
-  const [products, setProducts] = useState([
-    { name: "product1", price: 100.0 },
-    { name: "product2", price: 200.0 },
-  ]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   function addProduct() {
     setProducts((prevState) => [
       ...prevState,
       {
+        id: prevState.length + 101,
         name: "Product" + (prevState.length + 1),
+        description: "some description",
         price: prevState.length * 100 + 100,
+        brand: "some brand",
+        pictureUrl: "http://picsum.photos/200",
       },
     ]);
   }
