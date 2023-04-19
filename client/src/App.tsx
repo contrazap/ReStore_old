@@ -35,7 +35,9 @@ function App() {
             </li>
           ))}
         </ul>
-        <button onClick={addProduct}>Add Product</button>
+        <button className="btn btn-primary" onClick={addProduct}>
+          Add Product
+        </button>
       </>
     </div>
   );
