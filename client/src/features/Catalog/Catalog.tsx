@@ -1,36 +1,33 @@
-import {
-  Avatar,
-  Button,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@mui/material";
 import { Product } from "../../app/models/Product";
+import ProductList from "./ProductList";
+import { useState, useEffect } from "react";
 
-interface Props {
-  products: Product[];
-  addProduct: () => void;
-}
+export default function Catalog() {
+  const [products, setProducts] = useState<Product[]>([]);
 
-export default function Catalog({ products, addProduct }: Props) {
+  function addProduct() {
+    setProducts((prevState) => [
+      ...prevState,
+      {
+        id: prevState.length + 101,
+        name: "Product" + (prevState.length + 1),
+        description: "some description",
+        price: prevState.length * 100 + 100,
+        brand: "some brand",
+        pictureUrl: "http://picsum.photos/200",
+      },
+    ]);
+  }
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/products")
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
+  }, []);
+
   return (
     <>
-      <List>
-        {products.map((product, index) => (
-          <ListItem key={index}>
-            <ListItemAvatar>
-              <Avatar src={product.pictureUrl} />
-            </ListItemAvatar>
-            <ListItemText>
-              {product.name} - {product.price}
-            </ListItemText>
-          </ListItem>
-        ))}
-      </List>
-      <Button variant="contained" onClick={addProduct}>
-        Add Product
-      </Button>
+      <ProductList products={products} />
     </>
   );
 }
